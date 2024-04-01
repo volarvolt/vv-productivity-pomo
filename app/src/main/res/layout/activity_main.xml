@@ -1,54 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/editTextMinutes"
+    <!-- Grid layout for buttons -->
+    <GridLayout
+        android:id="@+id/gridLayoutButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:hint="Enter minutes"
-        android:inputType="number"
-        android:maxLength="3"/>
+        android:columnCount="3"
+        android:rowCount="2"
+        android:layout_centerInParent="true"
+        android:useDefaultMargins="false"
+        android:padding="16dp"
+        android:layout_gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/buttonStart"
+        <!-- Top row -->
+        <Button
+            android:id="@+id/button5min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 min"
+            android:onClick="startTimer"
+            android:tag="5" />
+
+        <Button
+            android:id="@+id/button10min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="10 min"
+            android:onClick="startTimer"
+            android:tag="10" />
+
+        <Button
+            android:id="@+id/button15min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15 min"
+            android:onClick="startTimer"
+            android:tag="15" />
+
+        <!-- Bottom row -->
+        <Button
+            android:id="@+id/button20min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20 min"
+            android:onClick="startTimer"
+            android:tag="20" />
+
+        <Button
+            android:id="@+id/button25min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="25 min"
+            android:onClick="startTimer"
+            android:tag="25" />
+
+        <Button
+            android:id="@+id/button30min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30 min"
+            android:onClick="startTimer"
+            android:tag="30" />
+
+    </GridLayout>
+
+    <TextView
+        android:id="@+id/textViewCountdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextMinutes"
+        android:layout_above="@id/gridLayoutButtons"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
-        android:text="Start"/>
+        android:text="00:00"
+        android:textSize="24sp"/>
 
     <Button
         android:id="@+id/buttonStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/buttonStart"
+        android:layout_below="@id/gridLayoutButtons"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:text="Stop"
         android:enabled="false"/>
 
     <TextView
-        android:id="@+id/textViewCountdown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/buttonStop"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:text="00:00"
-        android:textSize="24sp"/>
-
-    <TextView
         android:id="@+id/textViewVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version: 2024-04-01b"
+        android:text="Version: 2024-04-01c"
         android:textSize="12sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

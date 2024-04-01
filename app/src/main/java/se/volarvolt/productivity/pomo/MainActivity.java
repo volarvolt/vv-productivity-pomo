@@ -5,8 +5,8 @@ import android.app.NotificationManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +14,7 @@ import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editTextMinutes;
-    private Button buttonStart;
+    private Button[] buttonStart;
     private Button buttonStop;
     private TextView textViewCountdown;
     private CountDownTimer countDownTimer;
@@ -25,21 +24,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextMinutes = findViewById(R.id.editTextMinutes);
-        buttonStart = findViewById(R.id.buttonStart);
+        buttonStart = new Button[6];
+        buttonStart[0] = findViewById(R.id.button5min);
+        buttonStart[1] = findViewById(R.id.button10min);
+        buttonStart[2] = findViewById(R.id.button15min);
+        buttonStart[3] = findViewById(R.id.button20min);
+        buttonStart[4] = findViewById(R.id.button25min);
+        buttonStart[5] = findViewById(R.id.button30min);
         buttonStop = findViewById(R.id.buttonStop);
         textViewCountdown = findViewById(R.id.textViewCountdown);
 
-        buttonStart.setOnClickListener(v -> {
-            try {
-                long minutes = Integer.parseInt(editTextMinutes.getText().toString());
-                startTimer(minutes * 60000); // Convert minutes to milliseconds
-            } catch (NumberFormatException nfe) {
-                // nothing;
-            }
-        });
-
         buttonStop.setOnClickListener(v -> stopTimer());
+    }
+
+    public void startTimer(View view) {
+        // Retrieve the argument from the clicked button's tag
+        String tag = view.getTag().toString();
+        long minutes = Long.parseLong(tag);
+
+        // Call the startTimer method with the retrieved argument
+        startTimer(minutes * 60000); // Convert minutes to milliseconds
     }
 
     private void startTimer(long milliseconds) {
@@ -75,14 +79,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void disableControls() {
-        editTextMinutes.setEnabled(false);
-        buttonStart.setEnabled(false);
+        for (Button button : buttonStart) {
+            button.setEnabled(false);
+        }
         buttonStop.setEnabled(true);
     }
 
     private void enableControls() {
-        editTextMinutes.setEnabled(true);
-        buttonStart.setEnabled(true);
+        for (Button button : buttonStart) {
+            button.setEnabled(true);
+        }
         buttonStop.setEnabled(false);
     }
 
