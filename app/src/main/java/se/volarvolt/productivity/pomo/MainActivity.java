@@ -1,6 +1,8 @@
 package se.volarvolt.productivity.pomo;
 
-import android.media.MediaPlayer;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.Button;
@@ -8,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonStop;
     private TextView textViewCountdown;
     private CountDownTimer countDownTimer;
-    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +30,13 @@ public class MainActivity extends AppCompatActivity {
         buttonStop = findViewById(R.id.buttonStop);
         textViewCountdown = findViewById(R.id.textViewCountdown);
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.gong_sound); // Put your gong sound file in the raw folder
-
         buttonStart.setOnClickListener(v -> {
-            long minutes = Integer.parseInt(editTextMinutes.getText().toString());
-            startTimer(minutes * 60000); // Convert minutes to milliseconds
+            try {
+                long minutes = Integer.parseInt(editTextMinutes.getText().toString());
+                startTimer(minutes * 60000); // Convert minutes to milliseconds
+            } catch (NumberFormatException nfe) {
+                // nothing;
+            }
         });
 
         buttonStop.setOnClickListener(v -> stopTimer());
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 stopTimer();
-                mediaPlayer.start();
+                emitNotification();
             }
         };
 
@@ -80,5 +84,35 @@ public class MainActivity extends AppCompatActivity {
         editTextMinutes.setEnabled(true);
         buttonStart.setEnabled(true);
         buttonStop.setEnabled(false);
+    }
+
+    private void emitNotification() {
+        // Create a notification channel
+        NotificationChannel channel = new NotificationChannel("default", "Timer Notifications", NotificationManager.IMPORTANCE_HIGH);
+        channel.enableLights(true);
+        channel.setLightColor(Color.MAGENTA);
+
+        // Get the notification manager
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+
+        // Create the notification channel
+        notificationManager.createNotificationChannel(channel);
+
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default")
+                .setContentTitle("Timer Expired")
+                .setContentText("Your timer has expired.")
+                .setSmallIcon(R.drawable.ic_notification) // Icon for the notification
+                .setColor(Color.MAGENTA) // Notification color
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // High priority
+                .setAutoCancel(true); // Dismiss notification when tapped
+
+        // Show the notification
+        notificationManager.notify(0, builder.build());
+    }
+
+    private void setVersion(String version) {
+        TextView textViewVersion = findViewById(R.id.textViewVersion);
+        textViewVersion.setText(version);
     }
 }
