@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
         textViewCountdown = findViewById(R.id.textViewCountdown);
 
         buttonStop.setOnClickListener(v -> stopTimer());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Clear notifications when the app is brought to the foreground
+        NotificationManagerCompat.from(this).cancelAll(); // Clear all notifications
     }
 
     public void startTimer(View view) {

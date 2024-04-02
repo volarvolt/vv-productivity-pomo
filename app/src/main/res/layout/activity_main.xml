@@ -96,7 +96,7 @@
         android:id="@+id/textViewVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version: 2024-04-01c"
+        android:text="Version: 2024-04-02a"
         android:textSize="12sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
